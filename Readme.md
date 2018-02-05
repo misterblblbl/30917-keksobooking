@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александра Годун](https://up.htmlacademy.ru/nodejs/1/user/30917).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Донецкий](https://htmlacademy.ru/profile/id497669).
 
 ---
 
