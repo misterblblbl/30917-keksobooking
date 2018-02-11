@@ -9,7 +9,7 @@ if (args.length === 0) {
   process.exit();
 }
 
-switch(args[0]) {
+switch (args[0]) {
   case `--help`:
     console.log(`
       Доступные команды:

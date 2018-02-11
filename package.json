@@ -4,8 +4,12 @@
   "description": "htmlacademy educational project",
   "main": "index.js",
   "scripts": {
+    "precommit": "lint-staged",
     "test": "npm run test:lint",
     "test:lint": "eslint ."
+  },
+  "lint-staged": {
+    "*.js": ["eslint ."]
   },
   "repository": {
     "type": "git",
@@ -19,6 +23,8 @@
   "homepage": "https://github.com/misterblblbl/30917-keksobooking#readme",
   "devDependencies": {
     "eslint": "^4.17.0",
-    "eslint-config-htmlacademy": "^0.4.2"
+    "eslint-config-htmlacademy": "^0.4.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0"
   }
 }
