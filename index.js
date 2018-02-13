@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+const colors = require(`colors`);
+
 const help = require(`./src/help`);
 const author = require(`./src/author`);
 const description = require(`./src/description`);
