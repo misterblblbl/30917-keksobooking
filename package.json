@@ -9,7 +9,9 @@
     "test:lint": "eslint ."
   },
   "lint-staged": {
-    "*.js": ["eslint ."]
+    "*.js": [
+      "eslint ."
+    ]
   },
   "repository": {
     "type": "git",
@@ -26,5 +28,9 @@
     "eslint-config-htmlacademy": "^0.4.2",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.0"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "lodash": "^4.17.5"
   }
 }
