@@ -28,7 +28,7 @@ const shuffleArray = (src) => {
   const entityNumber = _.random(1, src.length);
   return _.flow(
       _.shuffle,
-      _.take(entityNumber),
+      _.take(entityNumber)
   )(src);
 };
 
