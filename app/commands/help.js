@@ -1,14 +1,15 @@
+const _ = require(`lodash/fp`);
+
 module.exports = {
-  name: `--help`,
+  name: `help`,
   description: `Prints possible commands`,
-  execute() {
-    console.log(`
-      Доступные команды:
-      --${`help`.gray}        — ${`печатает этот текст`.green}
-      --${`version`.gray}     — ${`печатает версию приложения`.green}
-      --${`author`.gray}      — ${`печатает имя автора приложения`.green}
-      --${`description`.gray} — ${`печатает описание`.green}
-      --${`license`.gray}     — ${`печатает информацию о лицензии`.green}
-    `);
+  execute(commands) {
+    console.log(`${
+      _.flow(
+          _.omit([`error`, `empty`]),
+          _.map((c) => (`--${c.name.padEnd(15).gray} – ${c.description.green}`)),
+          _.join(`\n`)
+      )(commands)
+    }`);
   }
 };
