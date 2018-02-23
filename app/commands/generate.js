@@ -1,5 +1,6 @@
 const fs = require(`fs`);
 const util = require(`util`);
+const _ = require(`lodash/fp`);
 const generateEntity = require(`../generate-entity`);
 
 const writeFile = util.promisify(fs.writeFile);
@@ -9,16 +10,20 @@ const writeFileOptions = {
 
 module.exports = {
   name: `generate`,
-  description: `Generates sample data`,
-  execute(filePath = `${process.cwd()}/hotel-data.json`) {
-    const data = generateEntity();
+  description: `Сгенерировать тестовые данные`,
+  execute(options) {
+    const {filePath = `${process.cwd()}/hotel-data.json`, quantity} = options;
+    const data = _.flow(
+        _.range(0),
+        _.map(generateEntity)
+    )(quantity);
 
     return writeFile(filePath, JSON.stringify(data), writeFileOptions)
         .then(() => {
-          console.log(`Your file has ben saved`);
+          console.log(`Данные сгенерированы: ${filePath}`);
         })
         .catch((err) => {
-          return console.log(`Error while generating sample data: ${err}`);
+          return console.log(`Ошибка при генерации данных: ${err}`);
         });
   }
 };
