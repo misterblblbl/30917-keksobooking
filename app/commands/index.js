@@ -5,6 +5,7 @@ const license = require(`./license`);
 const version = require(`./version`);
 const error = require(`./error`);
 const empty = require(`./empty`);
+const generate = require(`./generate`);
 
 module.exports = {
   help,
@@ -14,4 +15,5 @@ module.exports = {
   version,
   error,
   empty,
+  generate,
 };
