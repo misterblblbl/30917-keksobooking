@@ -6,6 +6,7 @@ const version = require(`./version`);
 const error = require(`./error`);
 const empty = require(`./empty`);
 const generate = require(`./generate`);
+const server = require(`./server`);
 
 module.exports = {
   help,
@@ -16,4 +17,5 @@ module.exports = {
   error,
   empty,
   generate,
+  server,
 };
