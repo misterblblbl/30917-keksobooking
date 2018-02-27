@@ -17,20 +17,27 @@ const EXTENSIONS = {
 const readFile = util.promisify(fs.readFile);
 
 const sendResponse = async (req, res) => {
-  const {pathname} = url.parse(req.url);
-  const staticDir = path.resolve(__dirname, `../../static/`);
-  const filePath = (pathname === `/`) ?
-    `${staticDir}/index.html` :
-    `${staticDir}${pathname}`;
+  try {
+    const {pathname} = url.parse(req.url);
+    const staticDir = path.resolve(__dirname, `../../static/`);
+    const filePath = (pathname === `/`) ?
+      `${staticDir}/index.html` :
+      `${staticDir}${pathname}`;
 
-  const data = await readFile(filePath);
-  const ext = path.extname(filePath);
+    const data = await readFile(filePath);
+    const ext = path.extname(filePath);
 
-  res.setHeader(`Content-type`, EXTENSIONS[ext]);
-  res.statusCode = 200;
-  res.statusMessage = `OK`;
+    res.setHeader(`Content-type`, EXTENSIONS[ext]);
+    res.statusCode = 200;
+    res.statusMessage = `OK`;
 
-  res.end(data);
+    res.end(data);
+  } catch (err) {
+    res.writeHead(500, `Internal Server Error`, {
+      'Content-type': `text/plain`
+    });
+    res.end(`OOPS! Something went wrong`);
+  }
 };
 
 const server = http.createServer(sendResponse);
@@ -40,7 +47,7 @@ module.exports = {
   description: `Запускает сервер`,
   execute() {
     server.listen(PORT, HOSTNAME, () => {
-      console.log(`Serever is running on ${HOSTNAME}:${PORT}`);
+      console.log(`Server is running on ${HOSTNAME}:${PORT}`);
     });
   }
 };
