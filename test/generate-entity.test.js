@@ -16,7 +16,7 @@ const {
 const generateEntity = require(`../app/generate-entity`);
 
 describe(`GenerateEntity function`, () => {
-  const data = generateEntity();
+  const data = generateEntity(1)[0];
   describe(`should generate object containing`, () => {
 
     it(`author field `, () => assert.ok(_.has([`author`], data)));

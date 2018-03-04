@@ -32,6 +32,10 @@ const shuffleArray = (src) => {
   )(src);
 };
 
+const generateDate = () => {
+  return Date.now() - generateRandomNumber(0, 30) * 3600 * 24;
+};
+
 const entityLocation = {
   x: generateRandomNumber(locationX.MIN, locationX.MAX),
   y: generateRandomNumber(locationY.MIN, locationY.MAX)
@@ -59,7 +63,13 @@ const generateEntity = () => {
       x: entityLocation.x,
       y: entityLocation.y,
     },
+    date: generateDate(),
   };
 };
 
-module.exports = generateEntity;
+module.exports = (quantity) => {
+  return _.flow(
+      _.range(0),
+      _.map(generateEntity)
+  )(quantity);
+};

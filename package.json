@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
+    "watch": "nodemon . --server",
     "test": "npm run test:lint && npm run test:mocha",
     "test:mocha": "mocha",
     "test:watch": "mocha --watch",
@@ -26,14 +27,19 @@
   },
   "homepage": "https://github.com/misterblblbl/30917-keksobooking#readme",
   "devDependencies": {
-    "eslint": "^4.17.0",
-    "eslint-config-htmlacademy": "^0.4.2",
-    "husky": "^0.14.3",
-    "lint-staged": "^6.1.0",
-    "mocha": "^5.0.1"
+    "eslint": "4.17.0",
+    "eslint-config-htmlacademy": "0.4.2",
+    "husky": "0.14.3",
+    "lint-staged": "6.1.0",
+    "mocha": "5.0.1",
+    "nodemon": "1.17.1",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
-    "colors": "^1.1.2",
-    "lodash": "^4.17.5"
+    "body-parser": "^1.18.2",
+    "colors": "1.1.2",
+    "express": "4.16.2",
+    "lodash": "4.17.5",
+    "multer": "^1.3.0"
   }
 }
