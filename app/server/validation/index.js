@@ -2,9 +2,15 @@ const _ = require(`lodash/fp`);
 
 const validate = (schema, params) => {
   return _.reduce((acc, x) => {
-    const value = _.get(x.name, params);
+    const value = _.flow(
+        _.get(x.name),
+        (val) => (_.isFunction(x.converter) ? x.converter(val) : val)
+    )(params);
 
-    if (!_.overEvery(x.predicates)(value)) {
+    const isValid = !_.overEvery(x.predicates)(value);
+    const mayBeEmpty = !x.required && _.isUndefined(value);
+
+    if (isValid && !mayBeEmpty) {
       return [...acc, x.message];
     }
 

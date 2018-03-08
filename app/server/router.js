@@ -1,24 +1,22 @@
 const {Router} = require(`express`);
 const bodyParser = require(`body-parser`);
-// const multer = require(`multer`);
+const multer = require(`multer`);
 const _ = require(`lodash/fp`);
 const generateEntity = require(`../generate-entity`);
 
 const ValidationError = require(`./validation/error`);
-const {queryParamsSchema} = require(`./validation/schema`);
+const {queryParamsSchema, offerSchema} = require(`./validation/schema`);
 const {validate} = require(`./validation`);
 
 const offers = generateEntity(30);
 const apiRouter = new Router();
-// const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({storage: multer.memoryStorage()});
 
 apiRouter.use(bodyParser.json());
 bodyParser.urlencoded({extended: true});
 
 apiRouter.get(`/offers`, (req, res) => {
-  const {skip: rawSkip = 0, limit: rawLimit = 20} = req.query;
-  const skip = parseInt(rawSkip, 10);
-  const limit = parseInt(rawLimit, 10);
+  const {skip = 0, limit = 20} = req.query;
 
   const errors = validate(queryParamsSchema, {
     skip,
@@ -54,8 +52,16 @@ apiRouter.get(`/offers/:date`, (req, res) => {
   });
 });
 
-apiRouter.post(`/offers`, (req, res) => {
+apiRouter.post(`/offers`, upload.single(`avatar`), (req, res) => {
   const {body} = req;
+  const {file: avatar} = req;
+  const data = _.assign(body, {avatar});
+  const errors = validate(offerSchema, data);
+
+  if (errors.length > 0) {
+    throw new ValidationError(errors);
+  }
+
   res.send(body);
 });
 
