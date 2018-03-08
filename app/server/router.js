@@ -41,7 +41,7 @@ apiRouter.get(`/offers/:date`, (req, res) => {
   const {skip = 0, limit = 20} = req.query;
   const data = _.flow(
       _.filter({date: _.parseInt(10, date)}),
-      _.slice(skip, limit),
+      _.slice(skip, limit)
   )(offers);
 
   res.send({
