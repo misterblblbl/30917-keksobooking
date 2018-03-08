@@ -8,20 +8,40 @@ describe(`POST api/offers`, () => {
     title: `Маленькая квартирка рядом с парком`,
     address: `102-0075 Tōkyō-to, Chiyoda-ku, Sanbanchō`,
     description: `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`,
-    price: 30000,
+    price: `3000`,
     type: `flat`,
-    rooms: 1,
-    guests: 1,
-    checkin: `9:00`,
-    checkout: `7:00`,
-    features: [`elevator`, `conditioner`]
+    rooms: `1`,
+    guests: `1`,
+    checkin: `12:00`,
+    checkout: `12:00`,
+    features: `elevator`
   };
 
   it(`should respond with sent json`, () => {
     return request(app)
         .post(`/api/offers`)
-        .send(data)
+        .set(`Accept`, `application.json`)
+        .field(`name`, `Pavel`)
+        .field(`title`, `Маленькая квартирка рядом с парком`)
+        .field(`address`, `102-0075 Tōkyō-to, Chiyoda-ku, Sanbanchō`)
+        .field(`description`, `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`)
+        .field(`type`, `flat`)
+        .field(`price`, `3000`)
+        .field(`rooms`, `1`)
+        .field(`guests`, `1`)
+        .field(`checkin`, `12:00`)
+        .field(`checkout`, `12:00`)
+        .field(`features`, `elevator`)
         .expect(200, data);
+  });
+
+  it(`should respond 400 error if data is inValid`, () => {
+    return request(app)
+        .post(`/api/offers`)
+        .set(`Accept`, `application.json`)
+        .field(`name`, `P`)
+        .field(`title`, `Маленькая квартирка рядом с парком`)
+        .expect(400);
   });
 });
 
