@@ -17,6 +17,22 @@ describe(`GET api/offers`, () => {
         });
   });
 
+  it(`should respond with 400 if received skip param is invalid`, () => {
+    return request(app)
+        .get(`/api/offers?skip=-1&limit=30`)
+        .set(`Accept`, `application/json`)
+        .expect(400)
+        .expect(`Content-Type`, /json/);
+  });
+
+  it(`should respond with 400 if received limit param is invalid`, () => {
+    return request(app)
+        .get(`/api/offers?skip=0&limit=meh`)
+        .set(`Accept`, `application/json`)
+        .expect(400)
+        .expect(`Content-Type`, /json/);
+  });
+
   it(`should respond with 404 if adress is unknown`, () => {
     return request(app)
         .get(`/api/blah`)
