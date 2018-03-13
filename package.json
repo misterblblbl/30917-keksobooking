@@ -6,6 +6,7 @@
   "scripts": {
     "precommit": "lint-staged",
     "watch": "nodemon . --server",
+    "sample": "node ./app/database/load-sample-data.js",
     "test": "npm run test:lint && npm run test:mocha",
     "test:mocha": "mocha",
     "test:watch": "mocha --watch",
