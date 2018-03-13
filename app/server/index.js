@@ -1,6 +1,7 @@
 const path = require(`path`);
 const express = require(`express`);
 const {apiRouter} = require(`./router`);
+require(`../database`);
 
 const app = express();
 const staticDir = path.resolve(__dirname, `../../static/`);
