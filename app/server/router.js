@@ -9,6 +9,7 @@ const ValidationError = require(`./error/validation`);
 const NotFoundError = require(`./error/not-found`);
 const {queryParamsSchema, offerSchema} = require(`./validation/schema`);
 const {validate} = require(`./validation`);
+const logger = require(`../logger`);
 
 const apiRouter = new Router();
 const upload = multer({storage: multer.memoryStorage()});
@@ -23,11 +24,18 @@ const getPage = async (cursor, skip, limit) => {
 };
 
 apiRouter.use(bodyParser.json());
+apiRouter.use((req, res, next) => {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
+  next();
+});
+
 bodyParser.urlencoded({extended: true});
 
 apiRouter.get(`/offers`, catchErrors(async (req, res) => {
-  const {skip = 0, limit = 20} = req.query;
+  logger.info(`Incoming GET-request to ${req.originalUrl} with params: ${JSON.stringify(req.query)}`);
 
+  const {skip = 0, limit = 20} = req.query;
   const errors = validate(queryParamsSchema, {
     skip,
     limit,
@@ -43,6 +51,8 @@ apiRouter.get(`/offers`, catchErrors(async (req, res) => {
 }));
 
 apiRouter.get(`/offers/:date`, catchErrors(async (req, res) => {
+  logger.info(`Incoming GET-request to ${req.originalUrl}`);
+
   const date = _.get(`params.date`, req);
   const offer = await apiRouter.offersStore.getOffer(parseInt(date, 10));
 
@@ -54,6 +64,8 @@ apiRouter.get(`/offers/:date`, catchErrors(async (req, res) => {
 }));
 
 apiRouter.get(`/offers/:date/avatar`, catchErrors(async (req, res) => {
+  logger.info(`Incoming GET-request to ${req.originalUrl}`);
+
   const date = _.flow(
       _.get(`params.date`),
       (x) => parseInt(x, 10)
@@ -87,6 +99,8 @@ apiRouter.post(`/offers`, upload.single(`avatar`), catchErrors(async (req, res) 
   const data = _.assign(body, {avatar, date});
   const errors = validate(offerSchema, data);
 
+  logger.info(`Received data from user: `, data);
+
   if (errors.length > 0) {
     throw new ValidationError(errors);
   }
@@ -119,7 +133,7 @@ apiRouter.use((exception, req, res, next) => {
     statusCode = 404;
   }
 
-  console.log(`Oops, something went wrong!`);
+  logger.error(`Router exception caught: `, exception);
   res.status(statusCode).send(data);
   next();
 });
