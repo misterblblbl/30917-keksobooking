@@ -2,7 +2,10 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 const _ = require(`lodash/fp`);
 
-const {app} = require(`../app/commands/server`);
+const mockApiRouter = require(`./mock-api-router`);
+const app = require(`express`)();
+
+app.use(`/api`, mockApiRouter);
 
 describe(`GET api/offers`, () => {
   it(`should respond with json`, () => {
@@ -13,7 +16,10 @@ describe(`GET api/offers`, () => {
         .expect(`Content-Type`, /json/)
         .then((res) => {
           const offers = res.body;
+
+          assert.equal(offers.total, 30);
           assert.ok(_.has(`data`, offers));
+          assert.equal(offers.data.length, 20);
         });
   });
 

@@ -36,18 +36,20 @@ const generateDate = () => {
   return Date.now() - generateRandomNumber(0, 30) * 3600 * 24;
 };
 
-const entityLocation = {
+const getLocation = () => ({
   x: generateRandomNumber(locationX.MIN, locationX.MAX),
   y: generateRandomNumber(locationY.MIN, locationY.MAX)
-};
+});
 
 const generateEntity = () => {
+  const location = getLocation();
+
   return {
     author: {
       avatar: `${AVATAR_URL}${generateRandomString()}`,
     },
     offer: {
-      address: `${entityLocation.x}, ${entityLocation.y}`,
+      address: `${location.x}, ${location.y}`,
       price: generateRandomNumber(price.MIN, price.MAX),
       type: selectRandomItem(TYPES),
       title: selectRandomItem(TITLES),
@@ -59,10 +61,7 @@ const generateEntity = () => {
       description: ``,
       photos: _.shuffle(PHOTOS),
     },
-    location: {
-      x: entityLocation.x,
-      y: entityLocation.y,
-    },
+    location,
     date: generateDate(),
   };
 };
