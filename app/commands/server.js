@@ -2,7 +2,7 @@ require(`dotenv`).config();
 
 const logger = require(`../logger`);
 const {app} = require(`../server`);
-const {SERVER_PORT, SERVER_HOST} = process.env;
+const {SERVER_PORT = 3000, SERVER_HOST = `localhost`} = process.env;
 
 module.exports = {
   name: `server`,

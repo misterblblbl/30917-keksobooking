@@ -134,7 +134,7 @@ apiRouter.use((exception, req, res, next) => {
   }
 
   logger.error(`Router exception caught: `, exception);
-  res.status(statusCode).send(data);
+  res.status(statusCode).send({error: data});
   next();
 });
 
