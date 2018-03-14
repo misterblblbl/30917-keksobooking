@@ -23,6 +23,12 @@ const getPage = async (cursor, skip, limit) => {
 };
 
 apiRouter.use(bodyParser.json());
+apiRouter.use((req, res, next) => {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
+  next();
+});
+
 bodyParser.urlencoded({extended: true});
 
 apiRouter.get(`/offers`, catchErrors(async (req, res) => {
