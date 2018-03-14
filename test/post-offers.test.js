@@ -1,6 +1,11 @@
 const request = require(`supertest`);
+const assert = require(`assert`);
+const _ = require(`lodash/fp`);
 
-const {app} = require(`../app/commands/server`);
+const mockApiRouter = require(`./mock-api-router`);
+const app = require(`express`)();
+
+app.use(`/api`, mockApiRouter);
 
 describe(`POST api/offers`, () => {
   const data = {
@@ -32,7 +37,11 @@ describe(`POST api/offers`, () => {
         .field(`checkin`, `12:00`)
         .field(`checkout`, `12:00`)
         .field(`features`, `elevator`)
-        .expect(200, data);
+        .expect(200)
+        .then((res) => {
+          const body = res.body;
+          assert.deepEqual(_.omit(`date`, body), data);
+        });
   });
 
   it(`should respond 400 error if data is inValid`, () => {

@@ -42,12 +42,14 @@ const getLocation = () => ({
 });
 
 const generateEntity = () => {
+  const location = getLocation();
+
   return {
     author: {
       avatar: `${AVATAR_URL}${generateRandomString()}`,
     },
     offer: {
-      address: `${getLocation().x}, ${getLocation().y}`,
+      address: `${location.x}, ${location.y}`,
       price: generateRandomNumber(price.MIN, price.MAX),
       type: selectRandomItem(TYPES),
       title: selectRandomItem(TITLES),
@@ -59,7 +61,7 @@ const generateEntity = () => {
       description: ``,
       photos: _.shuffle(PHOTOS),
     },
-    location: getLocation(),
+    location,
     date: generateDate(),
   };
 };
