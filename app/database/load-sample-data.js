@@ -1,4 +1,4 @@
-const OffersStore = require(`./store`);
+const OffersStore = require(`./offers-store`);
 const generateEntity = require(`../generate-entity`);
 
 const insertSampleCollection = async () => {
